@@ -1,15 +1,11 @@
 import type { determineSupportedPlaybackRateValues as determineSupportedPlaybackRateValuesFunction } from '../functions/determine-supported-playback-rate-values';
-import { TUpdateFunction, TUpdateVectorWithCustomState } from '../types';
 import type { createComputeVelocity as createComputeVelocityFunction } from './compute-velocity';
 import type { createSetTimingsrc as createSetTimingsrcFunction } from './set-timingsrc';
 import type { createSetTimingsrcWithCustomUpdateFunction } from './set-timingsrc-with-custom-update-function';
 import type { createUpdateGradually as createUpdateGraduallyFunction } from './update-gradually';
 import type { createUpdateStepwiseFactory } from './update-stepwise-factory';
 import type { createWindow } from './window';
-
-const DEFAULT_TOLERANCE = 0.025;
-
-export const createDefaultSetTimingsrc = (
+export declare const createDefaultSetTimingsrc: (
     createComputeVelocity: typeof createComputeVelocityFunction,
     createSetTimingsrc: typeof createSetTimingsrcFunction,
     createUpdateGradually: typeof createUpdateGraduallyFunction,
@@ -17,9 +13,10 @@ export const createDefaultSetTimingsrc = (
     determineSupportedPlaybackRateValues: typeof determineSupportedPlaybackRateValuesFunction,
     setTimingsrcWithCustomUpdateFunction: ReturnType<typeof createSetTimingsrcWithCustomUpdateFunction>,
     window: ReturnType<typeof createWindow>
-) => {
-    console.log(createComputeVelocity, window, createUpdateGradually, determineSupportedPlaybackRateValues);
-    const update = createUpdateStepwise(DEFAULT_TOLERANCE);
-
-    return createSetTimingsrc(setTimingsrcWithCustomUpdateFunction, <TUpdateFunction<TUpdateVectorWithCustomState<typeof update>>>update);
-};
+) => (
+    mediaElement: HTMLMediaElement,
+    timingObject: import('timing-object').ITimingObject,
+    prepareTimingStateVector?: import('../types').TPrepareTimingStateVectorFunction | null,
+    prepareUpdateVector?: import('../types').TPrepareUpdateVectorFunction | null
+) => () => void;
+//# sourceMappingURL=default-set-timingsrc.d.ts.map
