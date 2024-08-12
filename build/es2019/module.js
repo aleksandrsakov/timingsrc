@@ -16,27 +16,7 @@ import { play } from './functions/play';
 export { createSetTimingsrc };
 export { createUpdateGradually };
 export const createUpdateStepwise = createUpdateStepwiseFactory(translateTimingStateVector);
-const updateMediaElement = createUpdateMediaElement(
-    pause,
-    play,
-    createSetCurrentTime(new WeakMap()),
-    createSetPlaybackRate(881 / 882, new WeakMap(), 882 / 881)
-);
-export const setTimingsrcWithCustomUpdateFunction = createSetTimingsrcWithCustomUpdateFunction(
-    animationFrame,
-    clearInterval,
-    document,
-    on,
-    setInterval,
-    updateMediaElement
-);
-export const setTimingsrc = createDefaultSetTimingsrc(
-    createComputeVelocity,
-    createSetTimingsrc,
-    createUpdateGradually,
-    createUpdateStepwise,
-    determineSupportedPlaybackRateValues,
-    setTimingsrcWithCustomUpdateFunction,
-    createWindow()
-);
+const updateMediaElement = createUpdateMediaElement(pause, play, createSetCurrentTime(new WeakMap()), createSetPlaybackRate(881 / 882, new WeakMap(), 882 / 881));
+export const setTimingsrcWithCustomUpdateFunction = createSetTimingsrcWithCustomUpdateFunction(animationFrame, clearInterval, document, on, setInterval, updateMediaElement);
+export const setTimingsrc = createDefaultSetTimingsrc(createComputeVelocity, createSetTimingsrc, createUpdateGradually, createUpdateStepwise, determineSupportedPlaybackRateValues, setTimingsrcWithCustomUpdateFunction, createWindow());
 //# sourceMappingURL=module.js.map

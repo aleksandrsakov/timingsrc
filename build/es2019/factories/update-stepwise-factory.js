@@ -2,26 +2,15 @@ const MAXIMUM_PLAYHEAD_DIFFERENCE = 0.5;
 export const createUpdateStepwiseFactory = (translateTimingStateVector) => {
     return (tolerance) => {
         return (timingStateVector, currentTime, previousUpdateVectorWithCustomState) => {
-            let {
-                lastAppliedPostion,
-                lastAppliedTimestamp,
-                lastAppliedVelocity,
-                lastPlayheadDifference,
-                mediaElementDelay,
-                numberOfDetectedResets,
-                numberOfExpectedResets
-            } =
-                previousUpdateVectorWithCustomState !== null && previousUpdateVectorWithCustomState !== void 0
-                    ? previousUpdateVectorWithCustomState
-                    : {
-                          lastAppliedPostion: 0,
-                          lastAppliedTimestamp: 0,
-                          lastAppliedVelocity: 0,
-                          lastPlayheadDifference: 0,
-                          mediaElementDelay: 0,
-                          numberOfDetectedResets: 0,
-                          numberOfExpectedResets: 1
-                      };
+            let { lastAppliedPostion, lastAppliedTimestamp, lastAppliedVelocity, lastPlayheadDifference, mediaElementDelay, numberOfDetectedResets, numberOfExpectedResets } = previousUpdateVectorWithCustomState !== null && previousUpdateVectorWithCustomState !== void 0 ? previousUpdateVectorWithCustomState : {
+                lastAppliedPostion: 0,
+                lastAppliedTimestamp: 0,
+                lastAppliedVelocity: 0,
+                lastPlayheadDifference: 0,
+                mediaElementDelay: 0,
+                numberOfDetectedResets: 0,
+                numberOfExpectedResets: 1
+            };
             if (timingStateVector.position < 0 || timingStateVector.velocity === 0) {
                 lastAppliedPostion = timingStateVector.position;
                 lastAppliedVelocity = timingStateVector.velocity;
@@ -56,7 +45,8 @@ export const createUpdateStepwiseFactory = (translateTimingStateVector) => {
                                 velocity: lastAppliedVelocity
                             };
                         }
-                    } else {
+                    }
+                    else {
                         lastPlayheadDifference = playheadDifference;
                         numberOfDetectedResets += 1;
                         if (numberOfDetectedResets <= numberOfExpectedResets) {
@@ -74,25 +64,23 @@ export const createUpdateStepwiseFactory = (translateTimingStateVector) => {
                         }
                         numberOfExpectedResets += 1;
                     }
-                } else {
+                }
+                else {
                     lastPlayheadDifference = playheadDifference;
                     numberOfExpectedResets = Math.max(numberOfDetectedResets, 1);
                 }
-            } else {
+            }
+            else {
                 lastAppliedTimestamp = 0;
             }
             const positionDifference = Math.abs(currentTime - timingStateVector.position);
-            const velocityHasChanged =
-                lastAppliedVelocity === 0 ||
+            const velocityHasChanged = lastAppliedVelocity === 0 ||
                 (lastAppliedVelocity < 0 && timingStateVector.velocity > 0) ||
                 (lastAppliedVelocity > 0 && timingStateVector.velocity < 0);
             if (positionDifference > tolerance || velocityHasChanged) {
                 if (lastAppliedTimestamp > 0) {
                     const elapsedTime = timingStateVector.timestamp - lastAppliedTimestamp;
-                    const { position } = translateTimingStateVector(
-                        { acceleration: 0, position: lastAppliedPostion, timestamp: lastAppliedTimestamp, velocity: lastAppliedVelocity },
-                        elapsedTime
-                    );
+                    const { position } = translateTimingStateVector({ acceleration: 0, position: lastAppliedPostion, timestamp: lastAppliedTimestamp, velocity: lastAppliedVelocity }, elapsedTime);
                     mediaElementDelay = position - currentTime;
                 }
                 lastAppliedPostion = timingStateVector.position + mediaElementDelay;

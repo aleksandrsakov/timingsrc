@@ -1,9 +1,6 @@
 export const createUpdateGradually = (computeVelocity, [minValue, maxValue], threshold, tolerance) => {
     return ({ position, velocity }, currentTime, previousUpdateVectorWithCustomState) => {
-        let { mediaElementDelay } =
-            previousUpdateVectorWithCustomState !== null && previousUpdateVectorWithCustomState !== void 0
-                ? previousUpdateVectorWithCustomState
-                : { mediaElementDelay: 0 };
+        let { mediaElementDelay } = previousUpdateVectorWithCustomState !== null && previousUpdateVectorWithCustomState !== void 0 ? previousUpdateVectorWithCustomState : { mediaElementDelay: 0 };
         if (velocity < minValue || velocity > maxValue) {
             return { mediaElementDelay, position, velocity: 0 };
         }
@@ -13,10 +10,7 @@ export const createUpdateGradually = (computeVelocity, [minValue, maxValue], thr
         const positionDifference = currentTime - position;
         const absolutePositionDifference = Math.abs(positionDifference);
         if (absolutePositionDifference > threshold) {
-            const { position: lastPosition } =
-                previousUpdateVectorWithCustomState !== null && previousUpdateVectorWithCustomState !== void 0
-                    ? previousUpdateVectorWithCustomState
-                    : { position: null };
+            const { position: lastPosition } = previousUpdateVectorWithCustomState !== null && previousUpdateVectorWithCustomState !== void 0 ? previousUpdateVectorWithCustomState : { position: null };
             if (positionDifference < 0 || positionDifference > mediaElementDelay) {
                 if (lastPosition === currentTime) {
                     mediaElementDelay += absolutePositionDifference;

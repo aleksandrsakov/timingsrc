@@ -7,14 +7,16 @@ export const determineSupportedPlaybackRateValues = (window) => {
     try {
         // Bug #2: Chrome does not support values above 16.
         audio.playbackRate = 17;
-    } catch {
+    }
+    catch {
         // Bug #1: Chrome does not support values below 0.0625.
         return [0.0625, 16];
     }
     try {
         // Bug #3: Firefox does not support negative values.
         audio.playbackRate = -1;
-    } catch {
+    }
+    catch {
         return [0, DEFAULT_VALUES[1]];
     }
     return DEFAULT_VALUES;
