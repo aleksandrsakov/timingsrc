@@ -12,25 +12,23 @@ const DEFAULT_TIME_CONSTANT = 0.5;
 const DEFAULT_TOLERANCE = 0.025;
 
 export const createDefaultSetTimingsrc = (
-    createComputeVelocity: typeof createComputeVelocityFunction,
-    createSetTimingsrc: typeof createSetTimingsrcFunction,
-    createUpdateGradually: typeof createUpdateGraduallyFunction,
-    createUpdateStepwise: ReturnType<typeof createUpdateStepwiseFactory>,
-    determineSupportedPlaybackRateValues: typeof determineSupportedPlaybackRateValuesFunction,
-    setTimingsrcWithCustomUpdateFunction: ReturnType<typeof createSetTimingsrcWithCustomUpdateFunction>,
-    window: ReturnType<typeof createWindow>
+  createComputeVelocity: typeof createComputeVelocityFunction,
+  createSetTimingsrc: typeof createSetTimingsrcFunction,
+  createUpdateGradually: typeof createUpdateGraduallyFunction,
+  createUpdateStepwise: ReturnType<typeof createUpdateStepwiseFactory>,
+  determineSupportedPlaybackRateValues: typeof determineSupportedPlaybackRateValuesFunction,
+  setTimingsrcWithCustomUpdateFunction: ReturnType<typeof createSetTimingsrcWithCustomUpdateFunction>,
+  window: ReturnType<typeof createWindow>
 ) => {
-    console.log(
-        '@@@@userAgent',
-        createUpdateStepwise,
-        window !== null && window.navigator.userAgent.includes('Safari') && !window.navigator.userAgent.includes('Chrome')
-    );
-    const update = createUpdateGradually(
-        createComputeVelocity(DEFAULT_TIME_CONSTANT),
-        determineSupportedPlaybackRateValues(window),
-        DEFAULT_THRESHOLD,
-        DEFAULT_TOLERANCE
-    );
+    const update =
+      window !== null && window.navigator.userAgent.includes('Safari') && !window.navigator.userAgent.includes('Chrome')
+        ? createUpdateStepwise(DEFAULT_TOLERANCE)
+        : createUpdateGradually(
+          createComputeVelocity(DEFAULT_TIME_CONSTANT),
+          determineSupportedPlaybackRateValues(window),
+          DEFAULT_THRESHOLD,
+          DEFAULT_TOLERANCE
+        );
 
     return createSetTimingsrc(setTimingsrcWithCustomUpdateFunction, <TUpdateFunction<TUpdateVectorWithCustomState<typeof update>>>update);
 };
