@@ -1,6 +1,7 @@
 export const createSetCurrentTime = (currentTimeAssignments) => {
     return (mediaElement, previousValue, nextValue) => {
         const currentTimeAssignment = currentTimeAssignments.get(mediaElement);
+        console.log('@@@createSetCurrentTime', { currentTimeAssignment, previousValue, nextValue });
         if (currentTimeAssignment === undefined ||
             // Bug #5: Safari limits the precision of the value after a while.
             Math.abs(currentTimeAssignment[0] - previousValue) > 0.0001 ||

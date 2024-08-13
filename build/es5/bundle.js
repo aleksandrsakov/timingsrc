@@ -109,16 +109,23 @@ var createComputeVelocity = function createComputeVelocity(timeConstant) {
   };
 };
 
+var DEFAULT_THRESHOLD = 1;
+var DEFAULT_TIME_CONSTANT = 0.5;
 var DEFAULT_TOLERANCE = 0.025;
 var createDefaultSetTimingsrc = function createDefaultSetTimingsrc(createComputeVelocity, createSetTimingsrc, createUpdateGradually, createUpdateStepwise, determineSupportedPlaybackRateValues, setTimingsrcWithCustomUpdateFunction, window) {
-  console.log(createComputeVelocity, window, createUpdateGradually, determineSupportedPlaybackRateValues);
-  var update = createUpdateStepwise(DEFAULT_TOLERANCE);
+  console.log('@@@@userAgent', window !== null && window.navigator.userAgent.includes('Safari') && !window.navigator.userAgent.includes('Chrome'));
+  var update = window !== null && window.navigator.userAgent.includes('Safari') && !window.navigator.userAgent.includes('Chrome') ? createUpdateStepwise(DEFAULT_TOLERANCE) : createUpdateGradually(createComputeVelocity(DEFAULT_TIME_CONSTANT), determineSupportedPlaybackRateValues(window), DEFAULT_THRESHOLD, DEFAULT_TOLERANCE);
   return createSetTimingsrc(setTimingsrcWithCustomUpdateFunction, update);
 };
 
 var createSetCurrentTime = function createSetCurrentTime(currentTimeAssignments) {
   return function (mediaElement, previousValue, nextValue) {
     var currentTimeAssignment = currentTimeAssignments.get(mediaElement);
+    console.log('@@@createSetCurrentTime', {
+      currentTimeAssignment: currentTimeAssignment,
+      previousValue: previousValue,
+      nextValue: nextValue
+    });
     if (currentTimeAssignment === undefined ||
     // Bug #5: Safari limits the precision of the value after a while.
     Math.abs(currentTimeAssignment[0] - previousValue) > 0.0001 || currentTimeAssignment[1] !== nextValue) {
@@ -173,19 +180,13 @@ function toPropertyKey(t) {
   return "symbol" == _typeof(i) ? i : i + "";
 }
 
-function _defineProperty(obj, key, value) {
-  key = toPropertyKey(key);
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-  return obj;
+function _defineProperty(e, r, t) {
+  return (r = toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : e[r] = t, e;
 }
 
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -261,8 +262,8 @@ var createSetTimingsrcWithCustomUpdateFunction = function createSetTimingsrcWith
   };
 };
 
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
+function _arrayWithHoles(r) {
+  if (Array.isArray(r)) return r;
 }
 
 function _iterableToArrayLimit(r, l) {
@@ -290,27 +291,26 @@ function _iterableToArrayLimit(r, l) {
   }
 }
 
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-  return arr2;
+function _arrayLikeToArray(r, a) {
+  (null == a || a > r.length) && (a = r.length);
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+  return n;
 }
 
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+function _unsupportedIterableToArray(r, a) {
+  if (r) {
+    if ("string" == typeof r) return _arrayLikeToArray(r, a);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+  }
 }
 
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+function _slicedToArray(r, e) {
+  return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
 }
 
 var createUpdateGradually = function createUpdateGradually(computeVelocity, _ref, threshold, tolerance) {

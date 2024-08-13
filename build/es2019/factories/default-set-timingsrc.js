@@ -1,7 +1,11 @@
+const DEFAULT_THRESHOLD = 1;
+const DEFAULT_TIME_CONSTANT = 0.5;
 const DEFAULT_TOLERANCE = 0.025;
 export const createDefaultSetTimingsrc = (createComputeVelocity, createSetTimingsrc, createUpdateGradually, createUpdateStepwise, determineSupportedPlaybackRateValues, setTimingsrcWithCustomUpdateFunction, window) => {
-    console.log(createComputeVelocity, window, createUpdateGradually, determineSupportedPlaybackRateValues);
-    const update = createUpdateStepwise(DEFAULT_TOLERANCE);
+    console.log('@@@@userAgent', window !== null && window.navigator.userAgent.includes('Safari') && !window.navigator.userAgent.includes('Chrome'));
+    const update = window !== null && window.navigator.userAgent.includes('Safari') && !window.navigator.userAgent.includes('Chrome')
+        ? createUpdateStepwise(DEFAULT_TOLERANCE)
+        : createUpdateGradually(createComputeVelocity(DEFAULT_TIME_CONSTANT), determineSupportedPlaybackRateValues(window), DEFAULT_THRESHOLD, DEFAULT_TOLERANCE);
     return createSetTimingsrc(setTimingsrcWithCustomUpdateFunction, update);
 };
 //# sourceMappingURL=default-set-timingsrc.js.map

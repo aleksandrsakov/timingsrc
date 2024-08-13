@@ -11,6 +11,6 @@ export declare const createUpdateStepwise: (tolerance: number) => import("./type
     numberOfDetectedResets: number;
     numberOfExpectedResets: number;
 }>;
-export declare const setTimingsrcWithCustomUpdateFunction: <UpdateVectorWithCustomState extends import("./interfaces").IUpdateVector>(mediaElement: HTMLMediaElement, timingObject: import("timing-object").ITimingObject, updateFunction: import("./types").TUpdateFunction<UpdateVectorWithCustomState>, prepareTimingStateVector?: import("./types").TPrepareTimingStateVectorFunction | null, prepareUpdateVector?: import("./types").TPrepareUpdateVectorFunction | null) => () => void;
-export declare const setTimingsrc: (mediaElement: HTMLMediaElement, timingObject: import("timing-object").ITimingObject, prepareTimingStateVector?: import("./types").TPrepareTimingStateVectorFunction | null, prepareUpdateVector?: import("./types").TPrepareUpdateVectorFunction | null) => () => void;
+export declare const setTimingsrcWithCustomUpdateFunction: <UpdateVectorWithCustomState extends import("./interfaces").IUpdateVector>(mediaElement: HTMLMediaElement, timingObject: import("timing-object").ITimingObject, updateFunction: import("./types").TUpdateFunction<UpdateVectorWithCustomState>, prepareTimingStateVector?: null | import("./types").TPrepareTimingStateVectorFunction, prepareUpdateVector?: null | import("./types").TPrepareUpdateVectorFunction) => () => void;
+export declare const setTimingsrc: (mediaElement: HTMLMediaElement, timingObject: import("timing-object").ITimingObject, prepareTimingStateVector?: null | import("./types").TPrepareTimingStateVectorFunction, prepareUpdateVector?: null | import("./types").TPrepareUpdateVectorFunction) => () => void;
 //# sourceMappingURL=module.d.ts.map
