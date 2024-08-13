@@ -1,6 +1,7 @@
 export const createSetCurrentTime = (currentTimeAssignments: WeakMap<HTMLMediaElement, [number, number]>) => {
     return (mediaElement: HTMLMediaElement, previousValue: number, nextValue: number) => {
         const currentTimeAssignment = currentTimeAssignments.get(mediaElement);
+        console.log('@@@createSetCurrentTime', { currentTimeAssignment, previousValue, nextValue });
 
         if (
             currentTimeAssignment === undefined ||
