@@ -9,6 +9,7 @@ import { createSetTimingsrcWithCustomUpdateFunction } from './factories/set-timi
 import { createUpdateGradually } from './factories/update-gradually';
 import { createUpdateMediaElement } from './factories/update-media-element';
 import { createUpdateStepwiseFactory } from './factories/update-stepwise-factory';
+import { createWindow } from './factories/window';
 import { determineSupportedPlaybackRateValues } from './functions/determine-supported-playback-rate-values';
 import { pause } from './functions/pause';
 import { play } from './functions/play';
@@ -42,4 +43,5 @@ export const setTimingsrc = createDefaultSetTimingsrc(
     createUpdateStepwise,
     determineSupportedPlaybackRateValues,
     setTimingsrcWithCustomUpdateFunction,
+    createWindow()
 );
