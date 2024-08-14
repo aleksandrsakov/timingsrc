@@ -53,6 +53,7 @@ export const createUpdateStepwiseFactory = (translateTimingStateVector: TTransla
                     velocity: lastAppliedVelocity
                 };
             }
+            console.log('@@@createUpdateStepwiseFactory', { lastAppliedVelocity, lastPlayheadDifference, MAXIMUM_PLAYHEAD_DIFFERENCE, timingStateVector, currentTime, previousUpdateVectorWithCustomState });
 
             // Bug #4: Safari decreases currentTime after playing for about 200 milliseconds.
             if (lastAppliedVelocity === timingStateVector.velocity && lastPlayheadDifference < MAXIMUM_PLAYHEAD_DIFFERENCE) {
