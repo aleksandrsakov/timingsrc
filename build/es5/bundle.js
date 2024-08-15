@@ -62,7 +62,7 @@ const createOn = (wrapSubscribeFunction) => {
 };
 
 // @todo TypeScript does not include type definitions for the Reporting API yet.
-const createWindow$1 = () => (typeof window === 'undefined' ? null : window);
+const createWindow = () => (typeof window === 'undefined' ? null : window);
 
 const createWrapSubscribeFunction = (patch, toObserver) => {
     const emptyFunction = () => { }; // tslint:disable-line:no-empty
@@ -87,7 +87,7 @@ const emitNotSupportedError = (observer) => {
     return () => { }; // tslint:disable-line:no-empty
 };
 
-const window$1 = createWindow$1();
+const window$1 = createWindow();
 const wrapSubscribeFunction = createWrapSubscribeFunction(patch, toObserver);
 const animationFrame = createAnimationFrame(emitNotSupportedError, window$1, wrapSubscribeFunction);
 const on = createOn(wrapSubscribeFunction);
@@ -109,12 +109,10 @@ var createComputeVelocity = function createComputeVelocity(timeConstant) {
   };
 };
 
-var DEFAULT_THRESHOLD = 1;
-var DEFAULT_TIME_CONSTANT = 0.5;
 var DEFAULT_TOLERANCE = 0.025;
-var createDefaultSetTimingsrc = function createDefaultSetTimingsrc(createComputeVelocity, createSetTimingsrc, createUpdateGradually, createUpdateStepwise, determineSupportedPlaybackRateValues, setTimingsrcWithCustomUpdateFunction, window) {
-  console.log('createUpdateStepwise', createUpdateStepwise);
-  var update = createUpdateGradually(createComputeVelocity(DEFAULT_TIME_CONSTANT), determineSupportedPlaybackRateValues(window), DEFAULT_THRESHOLD, DEFAULT_TOLERANCE);
+var createDefaultSetTimingsrc = function createDefaultSetTimingsrc(createComputeVelocity, createSetTimingsrc, createUpdateGradually, createUpdateStepwise, determineSupportedPlaybackRateValues, setTimingsrcWithCustomUpdateFunction) {
+  console.log(createComputeVelocity, createUpdateGradually, determineSupportedPlaybackRateValues, 'determineSupportedPlaybackRateValues');
+  var update = createUpdateStepwise(DEFAULT_TOLERANCE);
   return createSetTimingsrc(setTimingsrcWithCustomUpdateFunction, update);
 };
 
@@ -534,10 +532,6 @@ var createUpdateStepwiseFactory = function createUpdateStepwiseFactory(translate
   };
 };
 
-var createWindow = function createWindow() {
-  return typeof window === 'undefined' ? null : window;
-};
-
 var DEFAULT_VALUES = [Number.MIN_VALUE, Number.MAX_VALUE];
 var determineSupportedPlaybackRateValues = function determineSupportedPlaybackRateValues(window) {
   if (window === null) {
@@ -577,7 +571,7 @@ var play = function play(mediaElement) {
 var createUpdateStepwise = createUpdateStepwiseFactory(translateTimingStateVector);
 var updateMediaElement = createUpdateMediaElement(pause, play, createSetCurrentTime(new WeakMap()), createSetPlaybackRate(881 / 882, new WeakMap(), 882 / 881));
 var setTimingsrcWithCustomUpdateFunction = createSetTimingsrcWithCustomUpdateFunction(animationFrame, clearInterval, document, on, setInterval, updateMediaElement);
-var setTimingsrc = createDefaultSetTimingsrc(createComputeVelocity, createSetTimingsrc, createUpdateGradually, createUpdateStepwise, determineSupportedPlaybackRateValues, setTimingsrcWithCustomUpdateFunction, createWindow());
+var setTimingsrc = createDefaultSetTimingsrc(createComputeVelocity, createSetTimingsrc, createUpdateGradually, createUpdateStepwise, determineSupportedPlaybackRateValues, setTimingsrcWithCustomUpdateFunction);
 
 exports.createSetTimingsrc = createSetTimingsrc;
 exports.createUpdateGradually = createUpdateGradually;

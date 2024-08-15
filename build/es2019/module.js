@@ -9,7 +9,7 @@ import { createSetTimingsrcWithCustomUpdateFunction } from './factories/set-timi
 import { createUpdateGradually } from './factories/update-gradually';
 import { createUpdateMediaElement } from './factories/update-media-element';
 import { createUpdateStepwiseFactory } from './factories/update-stepwise-factory';
-import { createWindow } from './factories/window';
+// import { createWindow } from './factories/window';
 import { determineSupportedPlaybackRateValues } from './functions/determine-supported-playback-rate-values';
 import { pause } from './functions/pause';
 import { play } from './functions/play';
@@ -18,5 +18,5 @@ export { createUpdateGradually };
 export const createUpdateStepwise = createUpdateStepwiseFactory(translateTimingStateVector);
 const updateMediaElement = createUpdateMediaElement(pause, play, createSetCurrentTime(new WeakMap()), createSetPlaybackRate(881 / 882, new WeakMap(), 882 / 881));
 export const setTimingsrcWithCustomUpdateFunction = createSetTimingsrcWithCustomUpdateFunction(animationFrame, clearInterval, document, on, setInterval, updateMediaElement);
-export const setTimingsrc = createDefaultSetTimingsrc(createComputeVelocity, createSetTimingsrc, createUpdateGradually, createUpdateStepwise, determineSupportedPlaybackRateValues, setTimingsrcWithCustomUpdateFunction, createWindow());
+export const setTimingsrc = createDefaultSetTimingsrc(createComputeVelocity, createSetTimingsrc, createUpdateGradually, createUpdateStepwise, determineSupportedPlaybackRateValues, setTimingsrcWithCustomUpdateFunction);
 //# sourceMappingURL=module.js.map
